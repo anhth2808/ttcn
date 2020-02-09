@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title #{pageTitle}
+    link(rel='shortcut icon', href='favicon/icon-compra.svg')
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
+    link(rel="stylesheet", href="/css/main.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+    block styles
+  body
+    .backdrop   
+    header.main-header
+      button#side-menu-toggle Hiệp Hùng
+      nav.main-header__nav
+          ul.main-header__item-list
+              li.main-header__item
+                  a.header__title(href="/", class=(path === '/' ? 'active' : '')) Hiệp Hùng
+              li.main-header__item
+                  a(href="/products", class=(path === '/products' ? 'active' : '')) Sản phẩm
+              - if (isAuthenticated) {
+                      - if (priority === 2) {
+                        li.main-header__item
+                            a(href="/cart", class=(path === '/cart' ? 'active' : '')) Giỏ hàng
+                        li.main-header__item
+                            a(href="/orders", class=(path === '/orders' ? 'active' : '')) Đơn đặt hàng
+                      - }
+                      - if (priority === 1) {
+                        li.main-header__item
+                            a(href="/admin/products", class=(path === '/admin/products' ? 'active' : '')) Quản lý sản phẩm
+                        li.main-header__item
+                            a(href="/admin/add-product", class=(path === '/admin/add-product' ? 'active' : '')) Thêm sản phẩm
+                        li.main-header__item
+                            a(href="/admin/orders", class=(path === '/admin/orders' ? 'active' : '')) Quản lý đơn hàng
+                      - }
+              - }          
+          ul.main-header__item-list
+              - if (!isAuthenticated) {
+                  li.main-header__item
+                      a(href="/login", class=(path=== "/login" ? "active" : "")) Đăng nhập
+                  li.main-header__item
+                      a(href="/signup", class=(path=== "/signup" ? "active" : "")) Đăng ký
+              - } else {
+                  li.main-header__item
+                      form(action="/logout", method="post")
+                          input(type="hidden", value=csrfToken, name="_csrf") 
+                          button(type="submit") Đăng xuất
+              - }
+
+    nav.mobile-nav
+        ul.mobile-nav__item-list
+            li.mobile-nav__item
+                a.header__title(href="/", class=(path === '/' ? 'active' : '')) Hiệp Hùng
+            li.mobile-nav__item
+                    a(href="/products", class=(path === '/products' ? 'active' : '')) Sản phẩm
+            - if (isAuthenticated) {
+                li.mobile-nav__item
+                    a(href="/cart", class=(path === '/cart' ? 'active' : '')) Giỏ hàng
+                li.mobile-nav__item
+                    a(href="/orders", class=(path === '/orders' ? 'active' : '')) Đơn đặt hàng
+                - if (priority === 1) {
+                  li.mobile-nav__item
+                      a(href="/admin/add-product", class=(path === '/admin/add-product' ? 'active' : '')) Thêm sản phẩm
+                  li.mobile-nav__item
+                      a(href="/admin/products", class=(path === '/admin/products' ? 'active' : '')) Quản lý sản phẩm
+                - }
+            - }
+            - if (!isAuthenticated) {
+                li.mobile-nav__item
+                    a(href="/login", class=(path=== "/login" ? "active" : "")) Đăng nhập
+                li.mobile-nav__item
+                    a(href="/signup", class=(path=== "/signup" ? "active" : "")) Đăng ký
+            - } else {
+                li.mobile-nav__item
+                    form(action='/logout', method='post')
+                        input(type="hidden", value=csrfToken, name="_csrf")
+                        button(type='submit') Đăng xuất
+            - }
+
+    block content
+
+    footer.footer
+      .container
+        .main-footer
+          .footer-left
+            .left-title
+              h3 Công ty THHH Hiệp Hùng
+            ul
+              li.footer-item Địa chỉ: 101A - Cư Thạnh, Suối Hiệp, Diên Khánh, Khánh Hòa
+              li.footer-item Số điện thoại: 0383096008
+              li.footer-item Email: hiephungonlineshop@gmail.com
+          .footer-center
+            h3 Thanh toán qua thẻ tín dụng
+            .paypal 
+              img(src='/images/paypal.jpg', alt='', width="300")    
+          .footer-right
+            h3 Mạng xã hội
+            ul.social
+              li
+                a(href='') 
+                  img(src='/images/facebook.png', alt='')    
+              li
+                a(href='') 
+                  img(src='/images/zalo.png', alt='')    
+              li
+                a(href='') 
+                  img(src='/images/twitter.png', alt='')
+              li
+                a(href='') 
+                  img(src='/images/skype.png', alt='')     
+
+    script(src="/js/main.js")
+    //- script(src="/js/formatPrice.js")
+    block scripts

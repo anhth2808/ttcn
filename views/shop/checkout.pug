@@ -1,0 +1,57 @@
+extends ../layouts/main-layout.pug
+
+block styles
+  link(rel="stylesheet", href="/css/cart.css")
+  link(rel="stylesheet", href="/css/forms.css")
+
+block content
+  main
+    .container
+      .main-checkout
+        ul.cart__item-list
+          each p in products
+            li.cart__item
+              .cart__table
+                table
+                  thead
+                    tr
+                      th(width='15%') Ảnh
+                      th Tên sản phẩm
+                      th(width='20%') Số lượng
+                      th(width='12%') Đơn giá
+                  tbody
+                    tr
+                      td(style='text-align: center;')
+                        img(src="/" + p.productId.imageUrl, alt=p.productId.title, width='70')
+                      td(style='font-weight:bold; color:#00695c; text-align: center;') #{p.productId.title}
+                      td(style='text-align: center;') #{p.quantity}
+                      td.product__price(style='text-align: center;') #{p.productId.price}
+
+        .centered
+          h3 Tổng cộng: 
+          span.product__price #{totalSum}
+    
+        .container
+          .form
+            form(action="/create-order", method="POST")
+              .form-control 
+                label(for="phoneNumber") Tên người nhận
+                input(type="text", name="name")#name
+              .form-control
+                label(for="address") Địa chỉ
+                input(type="text", name="address")#address
+              .form-control 
+                label(for="phoneNumber") Điện thoại
+                input(type="text", name="phoneNumber")#phoneNumber
+
+              script(src="https://checkout.stripe.com/checkout.js", class="stripe-button",
+                data-key="pk_test_0BxZxsDJwBUooh8iVpZGa5Nd00L4ofanek",
+                data-amount=totalCurrencyUSD*100,
+                data-name="Your order",
+                data-description="All the items",
+                data-image="https://stripe.com/img/documentation/checkout/marketplace.png",
+                data-locate="auto",
+                data-current="usd"
+              )
+
+  script(src="/js/formatPrice.js")

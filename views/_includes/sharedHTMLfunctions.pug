@@ -1,0 +1,41 @@
+mixin addToCart(product)
+  form(action="/cart", method="POST")
+    input(type="hidden", value=csrfToken, name="_csrf")
+    button.btn(type="submit") Thêm vào giỏ hàng
+    input(type="hidden", name="productId", value=product._id)
+
+mixin formatDate(dateString)
+    -var date = new Date(dateString);
+    -var d = date.getDate();
+    //- -var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+    -var monthNames = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ];
+    -var m = monthNames[date.getMonth()];
+    -var y = date.getFullYear();
+    -var output = d + ' - ' + m + ' - ' + y;
+    =output
+
+mixin pagination()
+  section.pagination
+    - if (currentPage !== 1 && previousPage !== 1) {
+        a(href="?page=1" + "&" + queryPath) 1
+    - }
+    - if (hasPreviousPage) {
+        a(href="?page=" + previousPage + "&" + queryPath) #{previousPage}
+    - }
+    a(href="/?page=" + currentPage + "&" + queryPath, class="active") #{currentPage}
+    - if (hasNextPage) {
+        a(href="?page=" + nextPage + "&" + queryPath) #{nextPage}
+    - }
+    - if (lastPage !== currentPage && nextPage !== lastPage) {
+        a(href="?page=" + lastPage + "&" + queryPath) #{lastPage}
+    - }
+
+mixin orderStatus(status)
+  select(name="status")#status
+    - if (!status) {
+      option(value="0", selected="selected") Đợi xử lý 
+      option(value="1") Đã gửi
+    - } else {
+      option(value="0") Đợi xử lý 
+      option(value="1", selected="selected") Đã gửi
+    - }

@@ -1,0 +1,37 @@
+extends ../layouts/main-layout.pug
+
+include ../_includes/sharedHTMLfunctions.pug
+
+block styles
+  link(rel="stylesheet", href="/css/product.css")
+
+block content
+  main
+    if prods.length > 0
+      .wrap.container
+        form(action="", method="get")
+          .search
+            input#searchTerm.searchTerm(type='text', name="queryOt1",placeholder='')
+            button.searchButton(type='submit')
+              i.fa.fa-search
+      .grid
+        each product in prods
+          article.card.product-item
+            div.card__header
+              h2.product__title #{product.title}
+            div.card__image
+              img(src="/" + product.imageUrl, alt=product.title)
+            div.card__content
+              h3.product__price #{product.price}
+              p.product__description #{product.description}
+            .card__actions
+              a.btn(href="/products/" + product._id) Chi tiết
+              - if (isAuthenticated) {
+                +addToCart(product)
+              - }
+      +pagination()
+
+    else
+      h3 Không có sản phẩm
+
+  script(src="/js/formatPrice.js")

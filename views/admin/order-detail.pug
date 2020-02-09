@@ -1,0 +1,34 @@
+extends ../layouts/main-layout.pug
+
+include ../_includes/sharedHTMLfunctions.pug
+
+block styles
+  link(rel="stylesheet", href="/css/orders.css")
+
+block content
+  main
+    .container
+      .main-order
+        ul.orders
+          li.orders__item 
+            h4 Đơn hàng - # #{order._id} &nbsp;&nbsp
+              span.datetime
+                +formatDate(order.orderDate)
+                | &nbsp;&nbsp;&nbsp;&nbsp;
+              +orderStatus(order.status)
+            p Người nhận: #{order.name}
+            p Địa chỉ: #{order.address}
+            p Số điện thoại: #{order.phoneNumber}
+            p Email: #{order.user.email}
+            h4 Danh sách sản phẩm:
+            ul.orders__products
+              each p in order.products 
+                li.orders__products-item 
+                  p 
+                    a(href="/products/" + p.product._id) #{p.product.title}
+                  p Số lượng: #{p.quantity}
+                  p Đơn giá: 
+                    span.product__price #{p.product.price}
+            h3 Tổng cộng: &nbsp;
+              span.product__price #{order.total}
+  script(src="/js/formatPrice.js")

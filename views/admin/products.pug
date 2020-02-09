@@ -1,0 +1,38 @@
+extends ../layouts/main-layout.pug
+
+include ../_includes/sharedHTMLfunctions.pug
+
+block styles
+  link(rel="stylesheet", href="/css/product.css")
+
+block content
+  main
+    if prods.length > 0
+      .wrap.container
+        form(action="", method="get")
+          .search
+            input#searchTerm.searchTerm(type='text', name="queryOt1",placeholder='')
+            button.searchButton(type='submit')
+              i.fa.fa-search
+      .grid
+        each product in prods
+          article.card.product-item
+            header.card__header
+              h2.product__title #{product.title}
+            div.card__image
+              img(src="/" + product.imageUrl, alt=product.tile)
+            div.card__content
+              h3.product__price #{product.price}
+              p.product__description #{product.description}
+            .card__actions
+              a.btn(href="/admin/edit-product/" + product._id + "?edit=true") Chỉnh sửa
+              input(type="hidden", value=csrfToken, name="_csrf")
+              input(type="hidden", value=product._id, name="productId")
+              button.btn(type="button", onclick="deleteProduct(this)") Xóa
+      +pagination()                       
+    else
+      .centered
+        h2 Không có sản phẩm
+block scripts
+  script(src="/js/formatPrice.js")
+  script(src="/js/admin.js")

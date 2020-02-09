@@ -1,0 +1,47 @@
+extends ../layouts/main-layout.pug
+
+include ../_includes/sharedHTMLfunctions.pug
+
+block styles
+  link(rel="stylesheet", href="/css/orders.css")
+
+block content
+  main
+    .container
+      .main-order
+        - if (orders.length <= 0) {
+          .centered
+            h2 Không có gì ở đây!
+        - } else {
+            .wrap.container(style="padding-bottom: 20px;")
+              form(action="", method="get")
+                .search
+                  input#searchTerm.searchTerm(type='text', name="queryOt1",placeholder='')
+                  button.searchButton(type='submit')
+                    i.fa.fa-search
+                .orderStatusField(style="padding-top: 5px;")
+                  span Lọc đơn hàng                  
+                  select#queryOt2(name="queryOt2")
+                    option(value="1") Tất cả
+                    option(value="2") Đợi xử lý
+                    option(value="3") Đã gửi
+            ul.orders
+              each order in orders
+                li.orders__item 
+                  input(type="hidden", value=order._id)#orderId
+                  h4
+                    a(href="./orders/" + order._id) Đơn hàng - # #{order._id} &nbsp;&nbsp
+                    span.datetime
+                      +formatDate(order.orderDate)
+                      | &nbsp;&nbsp;&nbsp;&nbsp;
+                    +orderStatus(order.status)
+                  p Người Nhận: #{order.name}
+                  p Tổng cộng: &nbsp;
+                    span.product__price #{order.total}
+                  ul.orders__products
+                    each p in order.products 
+                      li.orders__products-item #{p.product.title} (#{p.quantity})
+            +pagination()
+        - }
+  script(src="/js/formatPrice.js")
+  script(src="/js/admin.js")

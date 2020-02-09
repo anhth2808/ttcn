@@ -1,0 +1,45 @@
+extends ../layouts/main-layout.pug
+
+block styles
+  link(rel="stylesheet", href="/css/cart.css")
+
+block content
+  .container
+    .main-cart
+      - if (products.length > 0) {
+          ul.cart__item-list
+            each p in products
+              li.cart__item
+                .cart__table
+                  table
+                    thead
+                      tr
+                        th(width='15%') Ảnh
+                        th Tên sản phẩm
+                        th(width='20%') Số lượng
+                        th(width='12%') Đơn giá
+                        th(width='12%') Xóa
+                    tbody
+                      tr
+                        td(style='text-align: center;')
+                          img(src="/" + p.productId.imageUrl, alt=p.productId.title, width='70')
+                        td(style='font-weight:bold; color:#00695c; text-align: center;') #{p.productId.title}
+                        td(style='text-align: center;') #{p.quantity}
+                        td.product__price(style='text-align: center;') #{p.productId.price}
+                        td(style='text-align: center;')
+                          form(action="/cart-delete-item", method="POST")
+                            input(type="hidden", value=csrfToken, name="_csrf")
+                            input(type="hidden", value=p.productId._id, name="productId")
+                            button.btn.danger(type="submit") Xóa
+          hr.w-75
+          .centered
+            //- form(action="/create-order", method="POST")
+            //-     input(type="hidden", value=csrfToken, name="_csrf")
+            //-     button.btn(type="submit") Order Now!
+            a.btn(href="/checkout") Đặt hàng!!
+      - } else {
+          .centered
+            h2 Không có sản phẩm nào trong giỏ hàng.
+      - }
+
+  script(src="/js/formatPrice.js")

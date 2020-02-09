@@ -1,0 +1,32 @@
+.cart__item-list {
+  list-style: none;
+  padding: 0;
+  margin: auto;
+  width: 75%;
+}
+
+.cart__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin-bottom: 1rem;
+}
+
+.cart__table {
+  width: 100%;
+}
+
+.cart__table table{
+  width: 100%;
+}
+
+.cart__table th {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cart__table tr {
+  width: 100%;
+}
